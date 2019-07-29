@@ -1,0 +1,106 @@
+#Bootstrap is used to style bits of the demo. Remove it from the config, gemfile and stylesheets to stop using bootstrap
+require "uglifier"
+
+# Activate and configure extensions
+# https://middlemanapp.com/advanced/configuration/#configuring-extensions
+
+# Use '#id' and '.classname' as div shortcuts in slim
+# http://slim-lang.com/
+Slim::Engine.set_options shortcut: {
+  '#' => { tag: 'div', attr: 'id' }, '.' => { tag: 'div', attr: 'class' }
+}
+
+activate :autoprefixer do |prefix|
+  prefix.browsers = "last 2 versions"
+end
+
+activate :livereload
+
+# Layouts
+# https://middlemanapp.com/basics/layouts/
+
+# Per-page layout changes
+page '/*.xml', layout: false
+page '/*.json', layout: false
+page '/*.txt', layout: false
+page "/partials/*", layout: false
+page "/admin/*", layout: false
+
+activate :blog do |blog|
+  blog.permalink = "ingredients/{title}.html"
+  blog.sources = "ingredients/{title}.html"
+  blog.layout = "ingredient"
+end
+
+# With alternative layout
+# page '/path/to/file.html', layout: 'other_layout'
+
+# Proxy pages
+# https://middlemanapp.com/advanced/dynamic-pages/
+
+# Helpers
+# Methods defined in the helpers block are available in templates
+# https://middlemanapp.com/basics/helper-methods/
+
+# pretty urls
+activate :directory_indexes
+
+helpers do
+
+  def related_ingredients(page)
+    all_pages = blog.tags.slice(*page.tags).values.first
+    return [] if all_pages.blank?
+    all_pages.delete_if { |p| p == page }
+  end
+
+  #helper to set background images with asset hashes in a style attribute
+  def background_image(image)
+    "background-image: url('" << image_path(image) << "')"
+  end
+
+  def nav_link(link_text, url, options = {})
+    options[:class] ||= ""
+    options[:class] << " active" if url == current_page.url
+    link_to(link_text, url, options)
+  end
+
+  def markdown(content)
+     Tilt['markdown'].new { content }.render
+  end
+
+  def alphabetical_index
+    sitemap.resources
+      .find_all { |p| p.is_a? Middleman::Blog::BlogArticle }
+      .sort { |a, b| a.title <=> a.title }
+      .group_by { |p| p.title.chars.first }
+  end
+
+  def pages
+    sitemap.resources.find_all{ |p| p.source_file.match(/\.html/) }
+  end
+
+  def domain
+    "https://zutaten.com"
+  end
+
+  def ingredient_titles
+    blog.articles.map(&:title).join(", ")
+  end
+end
+
+# Build-specific configuration
+# https://middlemanapp.com/advanced/configuration/#environment-specific-settings
+
+configure :build do
+  # Minify css on build
+  activate :minify_css
+
+  # Minify Javascript on build
+  activate :minify_javascript, ignore: "**/admin/**", compressor: ::Uglifier.new(mangle: true, compress: { drop_console: true }, output: {comments: :none})
+
+  # Use Gzip
+  activate :gzip
+
+  #Use asset hashes to use for caching
+  #activate :asset_hash
+end

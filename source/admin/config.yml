@@ -1,0 +1,53 @@
+backend:
+  name: git-gateway
+
+media_folder: source/images/uploads
+public_folder: /images/uploads
+
+collections:
+
+  - name: ingredients
+    label: Ingredients
+    folder: source/ingredients/
+    extension: .html.md
+    format: frontmatter
+    create: true
+    slug: '{{title}}'
+    fields:
+      - {label: Title, name: title, widget: string, required: true}
+      - {label: Tags, name: tags, widget: list}
+      - {label: Publish Date, name: date, widget: datetime}
+      - {label: Description, name: description, widget: string}
+      - {label: Image, name: image, widget: image, required: false}
+      - {label: Body, name: body, widget: markdown}
+
+  - name: pages
+    label: Pages
+    files:
+      - file: "data/pages/home.yml"
+        label: Homepage
+        name: home
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - {label: Title, name: title, widget: string}
+              - {label: Image, name: image, widget: image, required: false}
+          - label: Story
+            name: story
+            widget: markdown
+
+  - name: settings
+    label: Settings
+    files:
+      - file: data/settings/navigation.yml
+        label: Navigation
+        name: navigation
+        fields:
+          - label: Navigation
+            name: nav_items
+            widget: list
+            fields:
+              - {label: Label, name: label, widget: string}
+              - {label: Path, name: path, widget: string}

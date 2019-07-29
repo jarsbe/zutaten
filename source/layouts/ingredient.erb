@@ -1,0 +1,17 @@
+<% wrap_layout :layout do %>
+  <article class="mw7 center bg-light-gray pa4">
+    <h1><%= current_page.data.title %></h1>
+
+    <%= image_tag current_page.data.image if current_page.data.image %>
+
+    <%= yield %>
+
+    <h3>Related Ingredients</h3>
+
+    <% related_ingredients(current_page).each do |ingredient| %>
+      <a href="<%= ingredient.url %>">
+        <%= ingredient.title %>
+      </a>
+    <% end %>
+  </article>
+<% end %>

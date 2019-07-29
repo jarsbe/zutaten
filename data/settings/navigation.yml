@@ -1,0 +1,4 @@
+nav_items:
+  - {label: 'About', path: '/about'}
+  - {label: 'Ingredients', path: '/ingredients'}
+

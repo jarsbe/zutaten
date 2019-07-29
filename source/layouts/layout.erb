@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zutaten</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css?family=Karla|Libre+Baskerville&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
+
+  <%= stylesheet_link_tag "all" %>
+</head>
+<body class="sans-serif site">
+  <%= partial 'partials/shared/header' %>
+
+  <main class="content">
+    <%= yield %>
+  </main>
+
+  <%= partial 'partials/shared/footer' %>
+
+  <%= javascript_include_tag 'index.bundle', async: true %>
+</body>
+</html>

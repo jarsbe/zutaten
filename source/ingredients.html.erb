@@ -1,0 +1,13 @@
+---
+title: Ingredients (A-Z)
+layout: page
+---
+
+<% alphabetical_index.keys.each do |key| %>
+  <h1><%= key %></h1>
+  <% alphabetical_index[key].each do |p| %>
+    <a href="<%= p.url %>">
+      <%= p.title %>
+    </a>
+  <% end %>
+<% end %>

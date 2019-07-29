@@ -1,0 +1,11 @@
+<nav class="pa3 pa4-ns flex justify-between">
+  <div>
+    <a class="link dim black b f6 f5-ns dib mr3" href="/" title="Home">Zutaten</a>
+  </div>
+
+  <div>
+    <% data.settings.navigation.nav_items.each do | nav_item | %>
+      <%= nav_link nav_item.label, nav_item.path, class: "link dim gray    f6 f5-ns dib ml1 mr2" %>
+    <% end %>
+  </div>
+</nav>

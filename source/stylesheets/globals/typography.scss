@@ -1,0 +1,11 @@
+.sans-serif {
+  font-family: 'Karla', 'helvetica neue', helvetica, sans-serif;
+}
+
+.serif {
+  font-family: 'Libre Baskerville', georgia, times, serif;
+}
+
+h1, h2, h3 {
+  @extend .serif;
+}
