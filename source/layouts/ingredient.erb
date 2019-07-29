@@ -6,7 +6,9 @@
 
     <%= yield %>
 
-    <h3>Related Ingredients</h3>
+    <% if related_ingredients(current_page).any? %>
+      <h3>Goes well with:</h3>
+    <% end %>
 
     <% related_ingredients(current_page).each do |ingredient| %>
       <a href="<%= ingredient.url %>">
